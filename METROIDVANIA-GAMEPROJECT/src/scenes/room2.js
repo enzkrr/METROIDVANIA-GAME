@@ -1,3 +1,3 @@
-export function quarto2(){ 
+export function room2(){ 
     
 }
