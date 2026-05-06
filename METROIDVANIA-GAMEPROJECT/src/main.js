@@ -1,16 +1,36 @@
-import { quarto2 } from "./cenas/quarto2";
-import { k } from "./kaboomLoader";
+import { k } from "./kaboomLoader.js";
+import { room1 } from "./scenes/room1.js";
+import { room2 } from "./scenes/room2.js";
+import { setBackgorundColor } from "./scenes/roomUtils.js";
 
-k.scene("quarto1", () => {
-    quarto1();
-});
+async function main() {
+    const room1Data = await (await fetch("./maps/room1.json")).json();
+    const room2Data = await (await fetch("./maps/room2.json")).json();
 
-k.scene("quarto2", () => {
-    quarto2();
-})
+    k.scene("room1", () => {
+        room2(k);
+    });
+    
+    k.scene("room2", () => {
+        room2();
+    });
+}
 
 k.scene("intro", () => {
-
+    setBackgorundColor(k, "#20214a");
+    k.add(
+        makeNotificationBox(
+            k,
+            "Escape da fabrica!\nUse as teclas de setas para se mover, x para pular, z para atacar.\nAperte enter para começar!"
+        )
+    );
+    k.onKeyPress("enter", () => {
+        const contex = new AudioContext();
+        context.resume();
+        k.go("room1", { exitName: null});
+    });
 });
 
 k.go("intro");
+
+main();
